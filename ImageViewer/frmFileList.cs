@@ -30,7 +30,7 @@ namespace ImageViewer
         private void frmFileList_Load(object sender, EventArgs e)
         {
             if (this.targetPath == null) {
-                MessageBox.Show("대상 폴더가 지정되지 않았습니다.", "Error", MessageBoxButtons.AbortRetryIgnore);
+                MessageBox.Show("대상 폴더가 지정되지 않았습니다.", "Error", MessageBoxButtons.OK);
                 this.Close();
             }
         }
