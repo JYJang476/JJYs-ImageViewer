@@ -38,11 +38,8 @@ namespace ImageViewer
         private void initFileList(int page)
         {
             int rowsMaxCount = (this.imgList.Width - BOTH_PADDING) / ITEM_SIZE;
-            int colsMaxCount = (this.imgList.Height - BOTH_PADDING) / (ITEM_SIZE + BOTH_PADDING) + 1;
             int itemPadding = ((this.imgList.Width - BOTH_PADDING) - (ITEM_SIZE * rowsMaxCount + BOTH_PADDING)) / rowsMaxCount;
             int itemCount = 0;
-
-            int fileListStart = colsMaxCount * page;
 
             foreach (FileInfo fileInfo in this.fileInfos)
             {
@@ -57,13 +54,6 @@ namespace ImageViewer
 
                 // item 더블클릭 시 frmMain에서 파일을 확인할 수 있도록 하는 코드
             }
-
-            UpdateScrollBar(this.fileInfos.Count);
-        }
-
-        private void UpdateScrollBar(int itemTotalCount)
-        {
-            int contentHeight = itemTotalCount * (ITEM_SIZE + BOTH_PADDING);
         }
 
         private Panel CreateItemPanel(Image image, Point itemLocation, String labelText, String filePath)
