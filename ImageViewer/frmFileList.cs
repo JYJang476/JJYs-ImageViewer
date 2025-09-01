@@ -46,28 +46,6 @@ namespace ImageViewer
                 MessageBox.Show("대상 폴더가 지정되지 않았습니다.", "Error", MessageBoxButtons.AbortRetryIgnore);
                 this.Close();
             }
-
-            this.fileInfos = fileLogic.GetFileInfos(this.targetPath);
-            initFileList(1);
-
-            // 파일 뷰어 불러오기
-            specialFolderEnum.initList();
-
-            // TreeView 이벤트 연결
-            this.tvFolders.BeforeExpand += tvFolders_BeforeExpand;
-
-            foreach (var folder in specialFolderEnum.getExistSpecialFolders())
-            {
-                TreeNode thisNode = this.tvFolders.Nodes.Add(folder.Key);
-                thisNode.Tag = folder.Value;
-
-                if (specialFolderEnum.compareFolderPath(folder.Value, this.targetPath) 
-                    && tvFolders.SelectedNode == null)
-                {
-                    // 특정 경로까지 확장
-                    ExpandToPath(thisNode, folder.Value, targetPath);
-                }
-            }
         }
 
         private void initFileList(int page)
@@ -209,6 +187,31 @@ namespace ImageViewer
         private void pRoot_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void frmFileList_Shown(object sender, EventArgs e)
+        {
+            this.fileInfos = fileLogic.GetFileInfos(this.targetPath);
+            initFileList(1);
+
+            // 파일 뷰어 불러오기
+            specialFolderEnum.initList();
+
+            // TreeView 이벤트 연결
+            this.tvFolders.BeforeExpand += tvFolders_BeforeExpand;
+
+            foreach (var folder in specialFolderEnum.getExistSpecialFolders())
+            {
+                TreeNode thisNode = this.tvFolders.Nodes.Add(folder.Key);
+                thisNode.Tag = folder.Value;
+
+                if (specialFolderEnum.compareFolderPath(folder.Value, this.targetPath)
+                    && tvFolders.SelectedNode == null)
+                {
+                    // 특정 경로까지 확장
+                    ExpandToPath(thisNode, folder.Value, targetPath);
+                }
+            }
         }
     }
 }

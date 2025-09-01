@@ -79,6 +79,7 @@ namespace ImageViewer
             this.Name = "frmFileList";
             this.Text = "frmFileList";
             this.Load += new System.EventHandler(this.frmFileList_Load);
+            this.Shown += new System.EventHandler(this.frmFileList_Shown);
             this.ResumeLayout(false);
 
         }
