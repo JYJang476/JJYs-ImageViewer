@@ -83,8 +83,8 @@ namespace ImageViewer
             {
                 if (ImageTypeEnum.getImageTypes().Contains(fileInfo.Extension.Substring(1, fileInfo.Extension.Length - 1))) {
                     int itemCountInRow = itemCount % rowsMaxCount;
-                    int itemX = itemCountInRow * ITEM_SIZE + itemPadding;
-                    int itemY = itemCount++ / rowsMaxCount * 90;
+                    int itemX = itemCountInRow * (ITEM_SIZE + itemPadding);
+                    int itemY = itemCount++ / rowsMaxCount * (ITEM_SIZE + itemPadding);
 
                     Panel imgItem = CreateItemPanel(Image.FromFile(fileInfo.FullName), new Point(itemX, itemY), fileInfo.Name, fileInfo.FullName);
                     this.imgList.Controls.Add(imgItem);
