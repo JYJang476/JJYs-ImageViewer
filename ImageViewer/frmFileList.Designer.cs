@@ -62,6 +62,7 @@ namespace ImageViewer
             // 
             // imgList
             // 
+            this.imgList.AutoScroll = true;
             this.imgList.Location = new System.Drawing.Point(289, 38);
             this.imgList.Name = "imgList";
             this.imgList.Size = new System.Drawing.Size(562, 600);

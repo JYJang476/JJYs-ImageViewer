@@ -17,12 +17,17 @@ namespace ImageViewer
 
         private String targetPath = null;
 
+        private List<FileInfo> fileInfos = null;
+
         private FileLogic fileLogic = new FileLogic();
+
         private frmMain frmMain = null;
 
-        private int X_BOTH_PADDING = 10;
+        private int BOTH_PADDING = 10;
 
         private int ITEM_SIZE = 80;
+
+        int fileListPage = 1;
 
         public frmFileList()
         {
@@ -42,21 +47,8 @@ namespace ImageViewer
                 this.Close();
             }
 
-            List<FileInfo> fileInfos = fileLogic.GetFileInfos(this.targetPath);
-            int rowsMaxCount = (this.imgList.Width - X_BOTH_PADDING) / ITEM_SIZE;
-            int itemPadding = ((this.imgList.Width - X_BOTH_PADDING) - (ITEM_SIZE * rowsMaxCount + X_BOTH_PADDING)) / rowsMaxCount;
-            int itemCount = 0;
-
-            foreach (FileInfo fileInfo in fileInfos)
-            {
-                int itemCountInRow = itemCount % rowsMaxCount;
-                int itemX = itemCountInRow * ITEM_SIZE + itemPadding;
-                int itemY = itemCount++ / rowsMaxCount * 90;
-                Panel imgItem = CreateItemPanel(Image.FromFile(fileInfo.FullName), new Point(itemX, itemY), fileInfo.Name, fileInfo.FullName);
-
-                this.imgList.Controls.Add(imgItem);
-                // item 더블클릭 시 frmMain에서 파일을 확인할 수 있도록 하는 코드
-            }
+            this.fileInfos = fileLogic.GetFileInfos(this.targetPath);
+            initFileList(1);
 
             // 파일 뷰어 불러오기
             specialFolderEnum.initList();
@@ -76,6 +68,37 @@ namespace ImageViewer
                     ExpandToPath(thisNode, folder.Value, targetPath);
                 }
             }
+        }
+
+        private void initFileList(int page)
+        {
+            int rowsMaxCount = (this.imgList.Width - BOTH_PADDING) / ITEM_SIZE;
+            int colsMaxCount = (this.imgList.Height - BOTH_PADDING) / (ITEM_SIZE + BOTH_PADDING) + 1;
+            int itemPadding = ((this.imgList.Width - BOTH_PADDING) - (ITEM_SIZE * rowsMaxCount + BOTH_PADDING)) / rowsMaxCount;
+            int itemCount = 0;
+
+            int fileListStart = colsMaxCount * page;
+
+            foreach (FileInfo fileInfo in this.fileInfos)
+            {
+                if (ImageTypeEnum.getImageTypes().Contains(fileInfo.Extension.Substring(1, fileInfo.Extension.Length - 1))) {
+                    int itemCountInRow = itemCount % rowsMaxCount;
+                    int itemX = itemCountInRow * ITEM_SIZE + itemPadding;
+                    int itemY = itemCount++ / rowsMaxCount * 90;
+
+                    Panel imgItem = CreateItemPanel(Image.FromFile(fileInfo.FullName), new Point(itemX, itemY), fileInfo.Name, fileInfo.FullName);
+                    this.imgList.Controls.Add(imgItem);
+                }
+
+                // item 더블클릭 시 frmMain에서 파일을 확인할 수 있도록 하는 코드
+            }
+
+            UpdateScrollBar(this.fileInfos.Count);
+        }
+
+        private void UpdateScrollBar(int itemTotalCount)
+        {
+            int contentHeight = itemTotalCount * (ITEM_SIZE + BOTH_PADDING);
         }
 
         private Panel CreateItemPanel(Image image, Point itemLocation, String labelText, String filePath)
@@ -167,7 +190,7 @@ namespace ImageViewer
                 currentTreeNode = pathStack.Pop();
                 String comparePath = currentTreeNode.Parent == null ? (String) currentTreeNode.Tag : currentTreeNode.Text;
 
-                if (comparePath.Equals(thisNode.Value))
+                if (thisNode != null && comparePath.Equals(thisNode.Value))
                 {
                     LoadSubDirectories(currentTreeNode, (string)currentTreeNode.Tag);
                     pathStack.Push(currentTreeNode.FirstNode);

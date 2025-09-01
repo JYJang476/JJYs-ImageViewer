@@ -57,7 +57,7 @@ namespace ImageViewer
 
         public Boolean compareFolderPath(string specialFolderPath, string path)
         {
-            return path.Substring(0, specialFolderPath.Count()).Equals(specialFolderPath);
+            return specialFolderPath.Length < path.Length && path.Substring(0, specialFolderPath.Count()).Equals(specialFolderPath);
         }
 
         public Dictionary<string, string> getExistSpecialFolders()
