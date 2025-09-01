@@ -58,7 +58,6 @@ namespace ImageViewer
             this.pRoot.Name = "pRoot";
             this.pRoot.Size = new System.Drawing.Size(851, 39);
             this.pRoot.TabIndex = 2;
-            this.pRoot.Paint += new System.Windows.Forms.PaintEventHandler(this.pRoot_Paint);
             // 
             // imgList
             // 

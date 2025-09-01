@@ -34,11 +34,6 @@ namespace ImageViewer
             }
         }
 
-        private void imgViewer_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void frmMain_Load(object sender, EventArgs e)
         {
             // 경로를 파라메터로 가져온 후 이미지 데이터로 이미지 표시
@@ -67,10 +62,6 @@ namespace ImageViewer
         public void LoadPicture(String path)
         {
             this.imgViewer.Image = Image.FromFile(path);
-        }
-
-        private void frmMain_Resize(object sender, EventArgs e)
-        {
         }
 
         private void 같은폴더내의이미지탐색ToolStripMenuItem_Click(object sender, EventArgs e)

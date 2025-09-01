@@ -48,7 +48,6 @@ namespace ImageViewer
             this.imgViewer.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.imgViewer.TabIndex = 0;
             this.imgViewer.TabStop = false;
-            this.imgViewer.Click += new System.EventHandler(this.imgViewer_Click);
             // 
             // menuImg
             // 
@@ -94,7 +93,6 @@ namespace ImageViewer
             this.Name = "frmMain";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.frmMain_Load);
-            this.Resize += new System.EventHandler(this.frmMain_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.imgViewer)).EndInit();
             this.menuImg.ResumeLayout(false);
             this.menuImg.PerformLayout();

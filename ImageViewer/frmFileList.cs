@@ -30,12 +30,6 @@ namespace ImageViewer
         public frmFileList()
         {
             InitializeComponent();
-            //InitializeTreeView();
-        }
-
-        private void weImageList_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
-        {
-           
         }
 
         private void frmFileList_Load(object sender, EventArgs e)
@@ -180,11 +174,6 @@ namespace ImageViewer
 
             if (currentTreeNode.Tag.ToString().Equals(this.targetPath))
                 this.tvFolders.SelectedNode = currentTreeNode;
-        }
-
-        private void pRoot_Paint(object sender, PaintEventArgs e)
-        {
-
         }
 
         private void frmFileList_Shown(object sender, EventArgs e)
