@@ -27,8 +27,6 @@ namespace ImageViewer
 
         private int ITEM_SIZE = 80;
 
-        int fileListPage = 1;
-
         public frmFileList()
         {
             InitializeComponent();
