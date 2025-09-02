@@ -53,6 +53,7 @@ namespace ImageViewer
             // 
             // pRoot
             // 
+            this.pRoot.BackColor = System.Drawing.Color.White;
             this.pRoot.Dock = System.Windows.Forms.DockStyle.Top;
             this.pRoot.Location = new System.Drawing.Point(0, 0);
             this.pRoot.Name = "pRoot";
@@ -62,6 +63,8 @@ namespace ImageViewer
             // imgList
             // 
             this.imgList.AutoScroll = true;
+            this.imgList.BackColor = System.Drawing.Color.White;
+            this.imgList.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.imgList.Location = new System.Drawing.Point(289, 38);
             this.imgList.Name = "imgList";
             this.imgList.Size = new System.Drawing.Size(562, 600);

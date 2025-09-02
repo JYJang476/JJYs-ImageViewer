@@ -12,7 +12,9 @@ namespace ImageViewer
 
         public FilePathDto(String rootPath, String path)
         {
-            this.filePath = path.Replace(rootPath, "");
+            this.filePath = path;
+            if (rootPath != null && !rootPath.Equals(""))
+                this.filePath = path.Replace(rootPath, "");
             this.rootPath = rootPath;
             this.folderName = new LinkedList<string>();
 

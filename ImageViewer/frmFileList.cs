@@ -18,9 +18,11 @@ namespace ImageViewer
 
         private frmMain frmMain = null;
 
-        private int BOTH_PADDING = 10;
+        private const int BOTH_PADDING = 10;
 
-        private int ITEM_SIZE = 80;
+        private const int ITEM_SIZE = 80;
+
+        private const int BOTH_PATH_PADDING = 3;
 
         public frmFileList()
         {
@@ -54,6 +56,62 @@ namespace ImageViewer
 
                 // item 더블클릭 시 frmMain에서 파일을 확인할 수 있도록 하는 코드
             }
+        }
+
+        private void initPathBox(FilePathDto filePathDto)
+        {
+            LinkedList<string> folderNames = filePathDto.getFolderName();
+            LinkedListNode<string> thisNode = folderNames.First;
+
+            int startPosition = 12;
+
+            while (!thisNode.Equals(folderNames.Last))
+            {
+                if (thisNode.Value == null || thisNode.Value.Equals(""))
+                {
+                    thisNode = thisNode.Next;
+                    continue;
+                }
+
+                Button newButton = CreatePathButton(thisNode.Value, new Point(startPosition, 9));
+                pRoot.Controls.Add(newButton);
+
+                startPosition += newButton.Width + BOTH_PATH_PADDING;
+
+                Label newLabel = CreatePathArrowLabel(new Point(startPosition, 9));
+                pRoot.Controls.Add(newLabel);
+
+                startPosition += newLabel.Width + BOTH_PATH_PADDING;
+
+                thisNode = thisNode.Next;
+            }
+        } 
+
+
+        private Button CreatePathButton(String path, Point location)
+        {
+            Button pathButton = new Button();
+            pathButton.FlatStyle = FlatStyle.Flat;
+            pathButton.FlatAppearance.BorderColor = Color.White;
+            pathButton.BackColor = Color.White;
+            pathButton.AutoSize = true;
+            pathButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            pathButton.Location = location;
+            pathButton.Text = path;
+
+            return pathButton;
+        }
+
+        private Label CreatePathArrowLabel(Point location)
+        {
+            Label pathArrowLabel = new Label();
+            pathArrowLabel.Text = ">";
+            pathArrowLabel.Size = new Size(10, pathArrowLabel.Height);
+            pathArrowLabel.BackColor = Color.White;
+            pathArrowLabel.TextAlign = ContentAlignment.MiddleCenter;
+            pathArrowLabel.Location = location;
+
+            return pathArrowLabel;
         }
 
         private Panel CreateItemPanel(Image image, Point itemLocation, String labelText, String filePath)
@@ -165,6 +223,8 @@ namespace ImageViewer
         {
             this.fileInfos = fileLogic.GetFileInfos(this.targetPath);
             initFileList(1);
+
+            initPathBox(new FilePathDto("", this.targetPath));
 
             // 파일 뷰어 불러오기
             specialFolderEnum.initList();
