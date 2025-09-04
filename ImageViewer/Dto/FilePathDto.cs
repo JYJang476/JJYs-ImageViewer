@@ -12,19 +12,24 @@ namespace ImageViewer
 
         public FilePathDto(String rootPath, String path)
         {
+            this.folderName = new LinkedList<string>();
+            LinkedListNode<String> currentNode = this.folderName.First;
+            this.rootPath = rootPath;
             this.filePath = path;
             if (rootPath != null && !rootPath.Equals(""))
+            {
                 this.filePath = path.Replace(rootPath, "");
-            this.rootPath = rootPath;
-            this.folderName = new LinkedList<string>();
+                currentNode = this.folderName.AddFirst(rootPath);
+            }
 
             List<String> urlList = this.filePath.Split(new char[] { '\\', '/' }).ToList();
 
-            LinkedListNode<String> currentNode = this.folderName.AddFirst(rootPath);
             foreach (String folder in urlList)
             {
-                if (folder != null && !folder.Equals(""))
+                if (currentNode != null && folder != null && !folder.Equals(""))
                     currentNode = this.folderName.AddAfter(currentNode, folder);
+                else if (currentNode == null)
+                    currentNode = this.folderName.AddFirst(folder);
             }
         }
 
@@ -66,7 +71,7 @@ namespace ImageViewer
 
             while (!thisNode.Equals(folderName.Last))
             {
-                output += "\\" + thisNode.Value;
+                output += thisNode.Value + "\\";
                 if (thisNode.Value == path)
                     break;
                 thisNode = thisNode.Next;

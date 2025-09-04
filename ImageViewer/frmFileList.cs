@@ -37,11 +37,14 @@ namespace ImageViewer
             }
         }
 
-        private void initFileList(int page)
+        private void initFileList(int page, String path)
         {
             int rowsMaxCount = (this.imgList.Width - BOTH_PADDING) / ITEM_SIZE;
             int itemPadding = ((this.imgList.Width - BOTH_PADDING) - (ITEM_SIZE * rowsMaxCount + BOTH_PADDING)) / rowsMaxCount;
             int itemCount = 0;
+
+            this.imgList.Controls.Clear();
+            this.fileInfos = fileLogic.GetFileInfos(path);
 
             foreach (FileInfo fileInfo in this.fileInfos)
             {
@@ -63,9 +66,11 @@ namespace ImageViewer
             LinkedList<string> folderNames = filePathDto.getFolderName();
             LinkedListNode<string> thisNode = folderNames.First;
 
+            this.pRoot.Controls.Clear();
+
             int startPosition = 12;
 
-            while (!thisNode.Equals(folderNames.Last))
+            for (int i = 0; i < folderNames.Count; i++)
             {
                 if (thisNode.Value == null || thisNode.Value.Equals(""))
                 {
@@ -73,7 +78,14 @@ namespace ImageViewer
                     continue;
                 }
 
-                Button newButton = CreatePathButton(thisNode.Value, new Point(startPosition, 9));
+                String currentNodeValue = thisNode.Value;
+
+                Button newButton = CreatePathButton(currentNodeValue, new Point(startPosition, 9));
+                newButton.Click += new EventHandler((object buttonObject, EventArgs buttonArgs) =>
+                {
+                    String thisPath = filePathDto.getSelectionPath(currentNodeValue);
+                    initFileList(1, thisPath);
+                });
                 pRoot.Controls.Add(newButton);
 
                 startPosition += newButton.Width + BOTH_PATH_PADDING;
@@ -221,9 +233,7 @@ namespace ImageViewer
 
         private void frmFileList_Shown(object sender, EventArgs e)
         {
-            this.fileInfos = fileLogic.GetFileInfos(this.targetPath);
-            initFileList(1);
-
+            initFileList(1, this.targetPath);
             initPathBox(new FilePathDto("", this.targetPath));
 
             // 파일 뷰어 불러오기
