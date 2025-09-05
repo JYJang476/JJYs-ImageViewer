@@ -24,7 +24,6 @@ namespace ImageViewer
 
             if (openFileDialog.FileName != null && openFileDialog.FileName.Length > 0)
             {
-                this.targetFolderPath = new FileInfo(openFileDialog.FileName).DirectoryName;
                 LoadPicture(openFileDialog.FileName);
             }
         }
@@ -32,14 +31,28 @@ namespace ImageViewer
         private void frmMain_Load(object sender, EventArgs e)
         {
             // 경로를 파라메터로 가져온 후 이미지 데이터로 이미지 표시
-            /*
+            
             string[] args = Environment.GetCommandLineArgs();
 
-            if (args.Count() == 0)
+            if (args.Length == 0)
                 return;
 
-            String imageFIlePath = args[0];
-            LoadPicture(imageFIlePath);*/
+            foreach (string arg in args)
+            {
+                if (isValidImageFile(arg))
+                {
+                    LoadPicture(arg);
+                    break;
+                }
+            }
+        }
+
+        private Boolean isValidImageFile(String fileName)
+        {
+            FileInfo fileInfo = new FileInfo(fileName);
+            String fileType = fileInfo.Extension.Replace(".", "");
+
+            return !ImageTypeEnum.ofType(fileType).Equals("");
         }
 
         private String getFilterString(List<String> fileTypes)
@@ -56,6 +69,7 @@ namespace ImageViewer
 
         public void LoadPicture(String path)
         {
+            this.targetFolderPath = new FileInfo(path).DirectoryName;
             this.imgViewer.Image = Image.FromFile(path);
         }
 
