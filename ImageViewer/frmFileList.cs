@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Windows.Forms;
 using System.IO;
 
@@ -146,7 +147,7 @@ namespace ImageViewer
             pictureBox.Size = new Size(80, 60);  // 위쪽 60px
             pictureBox.Location = new Point(0, 0);
             pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox.Image = image;
+            LoadImageFile(image, pictureBox, filePath);
             pictureBox.MouseDoubleClick += handler;
 
             // Label 생성
@@ -162,6 +163,36 @@ namespace ImageViewer
             itemPanel.Controls.Add(label);
 
             return itemPanel;
+        }
+
+        private void LoadImageFile(Image image, PictureBox pictureBox, string path)
+        {
+            string imageType = ImageTypeEnum.ofType(new FileInfo(path).Extension.Replace(".", ""));
+
+            if (imageType.Equals("gif"))
+            {
+                LoadFirstFrameOfGif(pictureBox, path);
+            }
+            else if(!imageType.Equals(""))
+            {
+                pictureBox.Image = image;
+            } 
+        }
+
+        private void LoadFirstFrameOfGif(PictureBox pictureBox, string path)
+        {
+            using (Image gifImage = Image.FromFile(path))
+            {
+                // 프레임 차원을 가져옵니다 (보통 시간 기반 애니메이션)
+                FrameDimension dimension = new FrameDimension(gifImage.FrameDimensionsList[0]);
+
+                // 첫 번째 프레임만 선택
+                gifImage.SelectActiveFrame(dimension, 0);
+
+                // 첫 프레임을 복사해서 PictureBox에 표시
+                Bitmap firstFrame = new Bitmap(gifImage);
+                pictureBox.Image = firstFrame;
+            }
         }
 
         public void setTargetPath(String path)

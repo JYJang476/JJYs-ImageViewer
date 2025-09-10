@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Reflection;
 
 namespace ImageViewer
@@ -10,7 +7,7 @@ namespace ImageViewer
     static class ImageTypeEnum
     {
         public const String TYPE_PNG = "png";
-        //public const String TYPE_GIF = "gif";
+        public const String TYPE_GIF = "gif";
         public const String TYPE_JPG = "jpg";
         public const String TYPE_JPEG = "jpeg";
         //public const String TYPE_TGA = "tga";
