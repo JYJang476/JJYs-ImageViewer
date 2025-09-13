@@ -34,23 +34,22 @@ namespace ImageViewer
             return imageType;
         }
 
-        public Bitmap LoadFirstFrameOfGif(string path, bool isThumnail)
+        public Bitmap LoadFirstFrameOfGif(string path)
         {
             using (System.Drawing.Image gifImage = System.Drawing.Image.FromFile(path))
             {
-                // 프레임 차원을 가져옵니다 (보통 시간 기반 애니메이션)
+                // 첫 번째 프레임만 선택
                 FrameDimension dimension = new FrameDimension(gifImage.FrameDimensionsList[0]);
 
-                // 첫 번째 프레임만 선택
                 gifImage.SelectActiveFrame(dimension, 0);
 
-                // 첫 프레임을 복사해서 PictureBox에 표시
-                if (isThumnail)
-                    return new Bitmap(gifImage.GetThumbnailImage(THUMNAIL_WIDTH, THUMNAIL_HEIGHT, () => false, IntPtr.Zero));
-
-                return new Bitmap(gifImage);
+                return new Bitmap(gifImage.GetThumbnailImage(THUMNAIL_WIDTH, THUMNAIL_HEIGHT, () => false, IntPtr.Zero));
             }
-            return null;
+        }
+
+        public System.Drawing.Image LoadAnimatingGif(string path)
+        {
+            return System.Drawing.Image.FromFile(path);
         }
 
         public Bitmap LoadDefaultImage(string path, bool isThumnail)
@@ -64,11 +63,6 @@ namespace ImageViewer
 
         public  Bitmap LoadTargaImage(string path, bool isThumnail)
         {
-            if (!File.Exists(path))
-            {
-                return null;
-            }
-
             // ImageSharp로 TGA 이미지 로드
             using (SixLabors.ImageSharp.Image<Rgba32> image = SixLabors.ImageSharp.Image.Load<Rgba32>(path, new TgaDecoder()))
             {

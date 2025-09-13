@@ -74,7 +74,7 @@ namespace ImageViewer
 
             if (imageType.Equals("gif"))
             {
-                this.imgViewer.Image = fileLogic.LoadFirstFrameOfGif(path, false);
+                this.imgViewer.Image = fileLogic.LoadAnimatingGif(path);
             }
             else if (imageType.Equals("tga"))
             {

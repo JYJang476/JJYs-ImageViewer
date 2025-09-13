@@ -166,21 +166,19 @@ namespace ImageViewer
         private void LoadImageFile(PictureBox pictureBox, string path)
         {
             string imageType = ImageTypeEnum.ofType(new FileInfo(path).Extension.Replace(".", ""));
-            Bitmap bufferBitmap = null;
 
             if (imageType.Equals("gif"))
             {
-                bufferBitmap = fileLogic.LoadFirstFrameOfGif(path, true);
+                pictureBox.Image = fileLogic.LoadFirstFrameOfGif(path);
             }
             else if(imageType.Equals("tga"))
             {
-                bufferBitmap = fileLogic.LoadTargaImage(path, true);
+                pictureBox.Image = fileLogic.LoadTargaImage(path, true);
             }
             else if(!imageType.Equals(""))
             {
-                bufferBitmap = fileLogic.LoadDefaultImage(path, true);
+                pictureBox.Image = fileLogic.LoadDefaultImage(path, true);
             }
-            pictureBox.Image = bufferBitmap;
         }
 
         public void setTargetPath(String path)
