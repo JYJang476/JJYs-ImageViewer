@@ -44,10 +44,10 @@ namespace ImageViewer
             // 
             // tvFolders
             // 
-            this.tvFolders.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.tvFolders.Location = new System.Drawing.Point(-2, 38);
+            this.tvFolders.Dock = System.Windows.Forms.DockStyle.Left;
+            this.tvFolders.Location = new System.Drawing.Point(0, 39);
             this.tvFolders.Name = "tvFolders";
-            this.tvFolders.Size = new System.Drawing.Size(285, 600);
+            this.tvFolders.Size = new System.Drawing.Size(285, 604);
             this.tvFolders.TabIndex = 1;
             this.tvFolders.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.tvFolders_BeforeExpand);
             this.tvFolders.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.tvFolders_MouseDoubleClick);
@@ -65,10 +65,11 @@ namespace ImageViewer
             // 
             this.imgList.AutoScroll = true;
             this.imgList.BackColor = System.Drawing.Color.White;
+            this.imgList.Dock = System.Windows.Forms.DockStyle.Right;
             this.imgList.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.imgList.Location = new System.Drawing.Point(289, 38);
+            this.imgList.Location = new System.Drawing.Point(289, 39);
             this.imgList.Name = "imgList";
-            this.imgList.Size = new System.Drawing.Size(562, 600);
+            this.imgList.Size = new System.Drawing.Size(562, 604);
             this.imgList.TabIndex = 3;
             // 
             // frmFileList
@@ -77,12 +78,13 @@ namespace ImageViewer
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(851, 643);
             this.Controls.Add(this.imgList);
-            this.Controls.Add(this.pRoot);
             this.Controls.Add(this.tvFolders);
+            this.Controls.Add(this.pRoot);
             this.Name = "frmFileList";
             this.Text = "frmFileList";
             this.Load += new System.EventHandler(this.frmFileList_Load);
             this.Shown += new System.EventHandler(this.frmFileList_Shown);
+            this.Resize += new System.EventHandler(this.frmFileList_Resize);
             this.ResumeLayout(false);
 
         }

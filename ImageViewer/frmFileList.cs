@@ -314,5 +314,10 @@ namespace ImageViewer
                 initFileList(1, selectionPath);
             }
         }
+
+        private void frmFileList_Resize(object sender, EventArgs e)
+        {
+            imgList.Width = this.Width - 305;
+        }
     }
 }
