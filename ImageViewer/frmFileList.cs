@@ -57,8 +57,6 @@ namespace ImageViewer
                     Panel imgItem = CreateItemPanel(new Point(itemX, itemY), fileInfo.Name, fileInfo.FullName);
                     this.imgList.Controls.Add(imgItem);
                 }
-
-                // item 더블클릭 시 frmMain에서 파일을 확인할 수 있도록 하는 코드
             }
         }
 
@@ -274,6 +272,15 @@ namespace ImageViewer
                     // 특정 경로까지 확장
                     ExpandToPath(thisNode, folder.Value, targetPath);
                 }
+            }
+        }
+
+        private void tvFolders_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left && tvFolders.SelectedNode != null)
+            {
+                string selectionPath = tvFolders.SelectedNode.Tag.ToString();
+                initFileList(1, selectionPath);
             }
         }
     }

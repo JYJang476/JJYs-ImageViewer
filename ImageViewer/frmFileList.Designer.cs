@@ -50,6 +50,7 @@ namespace ImageViewer
             this.tvFolders.Size = new System.Drawing.Size(285, 600);
             this.tvFolders.TabIndex = 1;
             this.tvFolders.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.tvFolders_BeforeExpand);
+            this.tvFolders.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.tvFolders_MouseDoubleClick);
             // 
             // pRoot
             // 
