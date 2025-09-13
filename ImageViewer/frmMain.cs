@@ -70,7 +70,19 @@ namespace ImageViewer
         public void LoadPicture(String path)
         {
             this.targetFolderPath = new FileInfo(path).DirectoryName;
-            this.imgViewer.Image = Image.FromFile(path);
+            string imageType = ImageTypeEnum.ofType(new FileInfo(path).Extension.Replace(".", ""));
+
+            if (imageType.Equals("gif"))
+            {
+                this.imgViewer.Image = fileLogic.LoadFirstFrameOfGif(path, false);
+            }
+            else if (imageType.Equals("tga"))
+            {
+                this.imgViewer.Image = fileLogic.LoadTargaImage(path, false);
+            } else if (!imageType.Equals(""))
+            {
+                this.imgViewer.Image = fileLogic.LoadDefaultImage(path, false);
+            }
         }
 
         private void 같은폴더내의이미지탐색ToolStripMenuItem_Click(object sender, EventArgs e)

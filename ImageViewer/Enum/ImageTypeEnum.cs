@@ -10,7 +10,7 @@ namespace ImageViewer
         public const String TYPE_GIF = "gif";
         public const String TYPE_JPG = "jpg";
         public const String TYPE_JPEG = "jpeg";
-        //public const String TYPE_TGA = "tga";
+        public const String TYPE_TGA = "tga";
 
 
         static public String ofType(String type)
