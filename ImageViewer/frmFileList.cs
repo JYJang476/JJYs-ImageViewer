@@ -130,7 +130,7 @@ namespace ImageViewer
 
         private Panel CreateItemPanel(Point itemLocation, String labelText, String filePath)
         {
-            MouseEventHandler handler = new MouseEventHandler((object mouseSender, MouseEventArgs mouseEvent) =>
+            MouseEventHandler mouseClickHandler = new MouseEventHandler((object mouseSender, MouseEventArgs mouseEvent) =>
             {
                 if (this.frmMain != null && mouseEvent.Button == MouseButtons.Left)
                     this.frmMain.LoadPicture(filePath);
@@ -138,10 +138,23 @@ namespace ImageViewer
 
             // 아이템 패널 생성
             Panel itemPanel = new Panel();
+            MouseEventHandler mouseDownHandler = new MouseEventHandler((object mouseSender, MouseEventArgs mouseEvent) =>
+            {
+                if (mouseEvent.Button == MouseButtons.Left)
+                    itemPanel.BackColor = SystemColors.Control;
+            });
+
+            MouseEventHandler mouseUpHandler = new MouseEventHandler((object mouseSender, MouseEventArgs mouseEvent) =>
+            {
+                if (mouseEvent.Button == MouseButtons.Left)
+                    itemPanel.BackColor = Color.Transparent;
+            });
+
             itemPanel.Size = new Size(80, 80);
             itemPanel.Location = itemLocation;
-            itemPanel.BorderStyle = BorderStyle.FixedSingle;
-            itemPanel.MouseDoubleClick += handler;
+            itemPanel.MouseDoubleClick += mouseClickHandler;
+            itemPanel.MouseDown += mouseDownHandler;
+            itemPanel.MouseUp += mouseUpHandler;
 
             // PictureBox 생성
             PictureBox pictureBox = new PictureBox();
@@ -149,7 +162,9 @@ namespace ImageViewer
             pictureBox.Location = new Point(0, 0);
             pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
             LoadImageFile(pictureBox, filePath);
-            pictureBox.MouseDoubleClick += handler;
+            pictureBox.MouseDoubleClick += mouseClickHandler;
+            pictureBox.MouseDown += mouseDownHandler;
+            pictureBox.MouseUp += mouseUpHandler;
 
             // Label 생성
             Label label = new Label();
@@ -159,7 +174,9 @@ namespace ImageViewer
             label.Dock = DockStyle.Bottom;
             label.Margin = new Padding(0, 10, 0, 0);
             label.TextAlign = ContentAlignment.MiddleCenter;
-            label.MouseDoubleClick += handler;
+            label.MouseDoubleClick += mouseClickHandler;
+            label.MouseDown += mouseDownHandler;
+            label.MouseUp += mouseUpHandler;
             toolTip.SetToolTip(label, labelText);
 
             // 아이템 패널에 추가
