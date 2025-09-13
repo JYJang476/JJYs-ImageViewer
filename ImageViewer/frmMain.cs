@@ -69,7 +69,10 @@ namespace ImageViewer
 
         public void LoadPicture(String path)
         {
-            this.targetFolderPath = new FileInfo(path).DirectoryName;
+            FileInfo fileInfo = new FileInfo(path);
+            this.targetFolderPath = fileInfo.DirectoryName;
+            this.Text = fileInfo.Name;
+
             string imageType = ImageTypeEnum.ofType(new FileInfo(path).Extension.Replace(".", ""));
 
             if (imageType.Equals("gif"))

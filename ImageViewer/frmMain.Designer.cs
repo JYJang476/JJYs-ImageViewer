@@ -91,7 +91,7 @@ namespace ImageViewer
             this.Controls.Add(this.menuImg);
             this.MainMenuStrip = this.menuImg;
             this.Name = "frmMain";
-            this.Text = "Form1";
+            this.Text = "Blank";
             this.Load += new System.EventHandler(this.frmMain_Load);
             ((System.ComponentModel.ISupportInitialize)(this.imgViewer)).EndInit();
             this.menuImg.ResumeLayout(false);

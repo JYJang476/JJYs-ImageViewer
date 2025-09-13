@@ -97,6 +97,8 @@ namespace ImageViewer
 
                 thisNode = thisNode.Next;
             }
+
+            this.Text = filePathDto.getFullPath();
         } 
 
 
