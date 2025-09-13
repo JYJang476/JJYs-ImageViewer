@@ -13,6 +13,9 @@ namespace ImageViewer
 {
     class FileLogic
     {
+        const int THUMNAIL_WIDTH = 64;
+        const int THUMNAIL_HEIGHT = 64;
+
         public List<FileInfo> GetFileInfos(String directoryPath)
         {
             return new DirectoryInfo(directoryPath).GetFiles().ToList();
@@ -43,7 +46,7 @@ namespace ImageViewer
 
                 // 첫 프레임을 복사해서 PictureBox에 표시
                 if (isThumnail)
-                    return new Bitmap(gifImage.GetThumbnailImage(64, 64, () => false, IntPtr.Zero));
+                    return new Bitmap(gifImage.GetThumbnailImage(THUMNAIL_WIDTH, THUMNAIL_HEIGHT, () => false, IntPtr.Zero));
 
                 return new Bitmap(gifImage);
             }
@@ -52,7 +55,7 @@ namespace ImageViewer
 
         public Bitmap LoadDefaultImage(string path, bool isThumnail)
         {
-            System.Drawing.Image bufferImage = new Bitmap(path).GetThumbnailImage(64, 64, () => false, IntPtr.Zero);
+            System.Drawing.Image bufferImage = new Bitmap(path).GetThumbnailImage(THUMNAIL_WIDTH, THUMNAIL_HEIGHT, () => false, IntPtr.Zero);
             if (isThumnail)
                 return new Bitmap(bufferImage);
 
@@ -72,7 +75,7 @@ namespace ImageViewer
                 if (isThumnail)
                 {
                     // 비율 유지하면서 축소 크기 계산
-                    float scale = Math.Min((float)64 / image.Width, (float)64 / image.Height);
+                    float scale = Math.Min((float)THUMNAIL_WIDTH / image.Width, (float)THUMNAIL_HEIGHT / image.Height);
                     int newWidth = (int)(image.Width * scale);
                     int newHeight = (int)(image.Height * scale);
 
