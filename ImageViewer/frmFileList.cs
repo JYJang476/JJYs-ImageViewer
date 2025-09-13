@@ -153,17 +153,29 @@ namespace ImageViewer
 
             // Label 생성
             Label label = new Label();
-            label.Text = labelText;
+            ToolTip toolTip = new ToolTip();
+            label.Text = LimitFileNameLength(labelText);
             label.Size = new Size(80, 20);  // 아래쪽 20px
-            label.Location = new Point(0, 60);
+            label.Dock = DockStyle.Bottom;
+            label.Margin = new Padding(0, 10, 0, 0);
             label.TextAlign = ContentAlignment.MiddleCenter;
             label.MouseDoubleClick += handler;
+            toolTip.SetToolTip(label, labelText);
 
             // 아이템 패널에 추가
             itemPanel.Controls.Add(pictureBox);
             itemPanel.Controls.Add(label);
 
             return itemPanel;
+        }
+
+        private string LimitFileNameLength(string name)
+        {
+            if (name.Length > 13)
+            {
+                return name.Substring(0, 10) + "...";
+            }
+            return name;
         }
 
         private void LoadImageFile(PictureBox pictureBox, string path)
