@@ -83,6 +83,7 @@ namespace ImageViewer
                 newButton.Click += new EventHandler((object buttonObject, EventArgs buttonArgs) =>
                 {
                     String thisPath = filePathDto.getSelectionPath(currentNodeValue);
+                    initPathBox(new FilePathDto(null, thisPath));
                     initFileList(1, thisPath);
                 });
                 pRoot.Controls.Add(newButton);
@@ -250,8 +251,8 @@ namespace ImageViewer
 
         private void frmFileList_Shown(object sender, EventArgs e)
         {
-            initFileList(1, this.targetPath);
             initPathBox(new FilePathDto("", this.targetPath));
+            initFileList(1, this.targetPath);
 
             // 파일 뷰어 불러오기
             specialFolderEnum.initList();
@@ -278,6 +279,7 @@ namespace ImageViewer
             if (e.Button == MouseButtons.Left && tvFolders.SelectedNode != null)
             {
                 string selectionPath = tvFolders.SelectedNode.Tag.ToString();
+                initPathBox(new FilePathDto(null, selectionPath));
                 initFileList(1, selectionPath);
             }
         }
