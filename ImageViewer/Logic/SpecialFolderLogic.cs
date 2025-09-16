@@ -4,10 +4,12 @@ using System.Linq;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace ImageViewer
+namespace ImageViewer.Logic
 {
-    class SpecialFolderEnum
+    class SpecialFolderLogic
     {
+        private Dictionary<string, string> existSpecialFolders = new Dictionary<string, string>();
+
         // Known folder ID for Downloads folder
         private static readonly Guid DownloadsFolderGuid = new Guid("374DE290-123F-4565-9164-39C4925E467B");
 
@@ -17,28 +19,6 @@ namespace ImageViewer
                 uint dwFlags,
                 IntPtr hToken,
                 out IntPtr ppszPath);
-
-        private Dictionary<string, string> specialFolders = new Dictionary<string, string>
-        {
-            { "바탕화면", Environment.GetFolderPath(Environment.SpecialFolder.Desktop) },
-            { "다운로드", GetDownloadsPath() },
-            { "사진", Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) },
-            { "음악", Environment.GetFolderPath(Environment.SpecialFolder.MyMusic) },
-            { "비디오", Environment.GetFolderPath(Environment.SpecialFolder.MyVideos) },
-            { "문서", Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) },
-            { "내 컴퓨터", "My Computer" }
-        };
-
-        private Dictionary<string, string> existSpecialFolders = new Dictionary<string, string>();
-
-        public void initList()
-        {
-            foreach (var folder in specialFolders)
-            {
-                if (Directory.Exists(folder.Value) || folder.Value.Equals("My Computer"))
-                    existSpecialFolders.Add(folder.Key, folder.Value);
-            }
-        }
 
         private static string GetDownloadsPath()
         {

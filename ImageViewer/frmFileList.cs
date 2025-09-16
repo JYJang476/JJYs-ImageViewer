@@ -19,6 +19,8 @@ namespace ImageViewer
 
         private frmMain frmMain = null;
 
+        private bool isExtended = false;
+
         private const int BOTH_PADDING = 10;
 
         private const int ITEM_SIZE = 80;
@@ -49,7 +51,7 @@ namespace ImageViewer
 
             foreach (FileInfo fileInfo in this.fileInfos)
             {
-                if (ImageTypeEnum.getImageTypes().Contains(fileInfo.Extension.Substring(1, fileInfo.Extension.Length - 1))) {
+                if (fileInfo.Extension.Length > 1 && ImageTypeEnum.getImageTypes().Contains(fileInfo.Extension.Substring(1, fileInfo.Extension.Length - 1))) {
                     int itemCountInRow = itemCount % rowsMaxCount;
                     int itemX = itemCountInRow * (ITEM_SIZE + itemPadding);
                     int itemY = itemCount++ / rowsMaxCount * (ITEM_SIZE + itemPadding);
@@ -100,7 +102,6 @@ namespace ImageViewer
 
             this.Text = filePathDto.getFullPath();
         } 
-
 
         private Button CreatePathButton(String path, Point location)
         {
@@ -228,7 +229,10 @@ namespace ImageViewer
             TreeNode currentNode = e.Node.FirstNode;
 
             if (e.Node.Nodes.Count == 1 && currentNode.Text.Equals(""))
-                LoadSubDirectories(e.Node, (string) e.Node.Tag);
+            {
+                e.Node.Nodes.Clear();
+                LoadSubDirectories(e.Node, (string)e.Node.Tag);
+            }
         }
 
         private void LoadSubDirectories(TreeNode node, string path)
@@ -244,6 +248,9 @@ namespace ImageViewer
                     TreeNode subNode = new TreeNode(di.Name);
                     subNode.Tag = di.FullName;
 
+                    if (di.GetDirectories().Length > 0)
+                        subNode.Nodes.Add("");
+
                     node.Nodes.Add(subNode);
                 }
             }
@@ -257,15 +264,16 @@ namespace ImageViewer
             TreeNode currentTreeNode = rootNode;
 
             Stack<TreeNode> pathStack = new Stack<TreeNode>();
+
             pathStack.Push(currentTreeNode);
 
             while (pathStack.Peek() != null)
             {
                 currentTreeNode = pathStack.Pop();
                 String comparePath = currentTreeNode.Parent == null ? (String) currentTreeNode.Tag : currentTreeNode.Text;
-
                 if (thisNode != null && comparePath.Equals(thisNode.Value))
-                {
+                { 
+                    currentTreeNode.Nodes.Clear();
                     LoadSubDirectories(currentTreeNode, (string)currentTreeNode.Tag);
                     pathStack.Push(currentTreeNode.FirstNode);
                     thisNode = thisNode.Next;
@@ -291,16 +299,51 @@ namespace ImageViewer
             // TreeView 이벤트 연결
             this.tvFolders.BeforeExpand += tvFolders_BeforeExpand;
 
-            foreach (var folder in specialFolderEnum.getExistSpecialFolders())
-            {
+            Dictionary<string, string> existSpecialFolder = specialFolderEnum.getExistSpecialFolders();
+            List<TreeNode> subNodes = new List<TreeNode>();
+
+            foreach (var folder in existSpecialFolder)
+            { 
                 TreeNode thisNode = this.tvFolders.Nodes.Add(folder.Key);
                 thisNode.Tag = folder.Value;
 
-                if (specialFolderEnum.compareFolderPath(folder.Value, this.targetPath)
+                if (folder.Value.Equals("My Computer"))
+                {
+                    foreach (string drive in Environment.GetLogicalDrives())
+                    {
+                        TreeNode subNode = thisNode.Nodes.Add(drive);
+                        subNode.Tag = drive;
+                        subNodes.Add(subNode);
+                    }
+                    continue;
+                }
+
+                if (!isExtended && specialFolderEnum.compareFolderPath(thisNode.Tag.ToString(), this.targetPath)
                     && tvFolders.SelectedNode == null)
                 {
                     // 특정 경로까지 확장
-                    ExpandToPath(thisNode, folder.Value, targetPath);
+                    ExpandToPath(thisNode, folder.Value, this.targetPath);
+                    isExtended = true;
+                    break;
+                } else
+                    thisNode.Nodes.Add("");
+            }
+
+            if (!isExtended)
+            {
+                foreach (TreeNode node in subNodes)
+                {
+                    if (!isExtended && specialFolderEnum.compareFolderPath(node.Tag.ToString(), this.targetPath)
+                            && tvFolders.SelectedNode == null)
+                    {
+                        // 특정 경로까지 확장
+                        ExpandToPath(node, node.Tag.ToString(), this.targetPath);
+                        isExtended = true;
+                        node.Parent.Expand();
+                        break;
+                    }
+                    else
+                        node.Nodes.Add("");
                 }
             }
         }
