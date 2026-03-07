@@ -133,8 +133,12 @@ namespace ImageViewer
         {
             MouseEventHandler mouseClickHandler = new MouseEventHandler((object mouseSender, MouseEventArgs mouseEvent) =>
             {
-                if (this.frmMain != null && mouseEvent.Button == MouseButtons.Left)
-                    this.frmMain.LoadPicture(filePath);
+                frmMain newPictureForm = new frmMain();
+                if (newPictureForm != null && mouseEvent.Button == MouseButtons.Left)
+                {
+                    newPictureForm.LoadPicture(filePath);
+                    newPictureForm.Show();
+                }
             });
 
             // 아이템 패널 생성
