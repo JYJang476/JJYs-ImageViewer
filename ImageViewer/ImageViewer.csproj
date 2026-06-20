@@ -80,6 +80,7 @@
     </Compile>
     <Compile Include="Dto\ImageType.cs" />
     <Compile Include="Enum\ImageTypeEnum.cs" />
+    <Compile Include="Logic\ImageEditLogic.cs" />
     <Compile Include="Logic\SpecialFolderLogic.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

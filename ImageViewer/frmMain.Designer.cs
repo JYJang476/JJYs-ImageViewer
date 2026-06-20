@@ -29,25 +29,13 @@ namespace ImageViewer
         /// </summary>
         private void InitializeComponent()
         {
-            this.imgViewer = new System.Windows.Forms.PictureBox();
             this.menuImg = new System.Windows.Forms.MenuStrip();
             this.파일ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.열기ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.같은폴더내의이미지탐색ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            ((System.ComponentModel.ISupportInitialize)(this.imgViewer)).BeginInit();
+            this.imgViewer = new System.Windows.Forms.Panel();
             this.menuImg.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // imgViewer
-            // 
-            this.imgViewer.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.imgViewer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.imgViewer.Location = new System.Drawing.Point(0, 24);
-            this.imgViewer.Name = "imgViewer";
-            this.imgViewer.Size = new System.Drawing.Size(798, 654);
-            this.imgViewer.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.imgViewer.TabIndex = 0;
-            this.imgViewer.TabStop = false;
             // 
             // menuImg
             // 
@@ -82,6 +70,15 @@ namespace ImageViewer
             this.같은폴더내의이미지탐색ToolStripMenuItem.Text = "같은 폴더내의 이미지 탐색";
             this.같은폴더내의이미지탐색ToolStripMenuItem.Click += new System.EventHandler(this.같은폴더내의이미지탐색ToolStripMenuItem_Click);
             // 
+            // imgViewer
+            // 
+            this.imgViewer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imgViewer.Location = new System.Drawing.Point(0, 24);
+            this.imgViewer.Name = "imgViewer";
+            this.imgViewer.Size = new System.Drawing.Size(798, 654);
+            this.imgViewer.TabIndex = 2;
+            this.imgViewer.Paint += new System.Windows.Forms.PaintEventHandler(this.imgViewer_Paint);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -93,7 +90,6 @@ namespace ImageViewer
             this.Name = "frmMain";
             this.Text = "Blank";
             this.Load += new System.EventHandler(this.frmMain_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.imgViewer)).EndInit();
             this.menuImg.ResumeLayout(false);
             this.menuImg.PerformLayout();
             this.ResumeLayout(false);
@@ -102,12 +98,11 @@ namespace ImageViewer
         }
 
         #endregion
-
-        private System.Windows.Forms.PictureBox imgViewer;
         private System.Windows.Forms.MenuStrip menuImg;
         private System.Windows.Forms.ToolStripMenuItem 파일ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 열기ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 같은폴더내의이미지탐색ToolStripMenuItem;
+        private System.Windows.Forms.Panel imgViewer;
     }
 }
 

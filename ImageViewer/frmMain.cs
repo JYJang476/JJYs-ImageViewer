@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
+using ImageViewer.Logic;
+using System.Diagnostics;
 
 namespace ImageViewer
 {
     public partial class frmMain : Form
     {
         private FileLogic fileLogic = new FileLogic();
+        private ImageEditLogic editLogic = new ImageEditLogic();
         private String targetFolderPath = null;
+        
         public frmMain()
         {
             InitializeComponent();
@@ -30,8 +34,8 @@ namespace ImageViewer
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-            // 경로를 파라메터로 가져온 후 이미지 데이터로 이미지 표시
-            
+            editLogic.setImagePanelSize(imgViewer.Size);
+            // 경로를 파라메터로 가져온 후 이미지 데이터로 이미지 표시            
             string[] args = Environment.GetCommandLineArgs();
 
             if (args.Length == 0)
@@ -45,6 +49,8 @@ namespace ImageViewer
                     break;
                 }
             }
+
+            imgViewer.MouseWheel += new MouseEventHandler(imgViewer_MouseWheel);
         }
 
         private Boolean isValidImageFile(String fileName)
@@ -77,15 +83,17 @@ namespace ImageViewer
 
             if (imageType.Equals("gif"))
             {
-                this.imgViewer.Image = fileLogic.LoadAnimatingGif(path);
+                editLogic.setOriginImage(fileLogic.LoadAnimatingGif(path));
             }
             else if (imageType.Equals("tga"))
             {
-                this.imgViewer.Image = fileLogic.LoadTargaImage(path, false);
+                editLogic.setOriginImage(fileLogic.LoadTargaImage(path, false));
             } else if (!imageType.Equals(""))
             {
-                this.imgViewer.Image = fileLogic.LoadDefaultImage(path, false);
+                editLogic.setOriginImage(fileLogic.LoadDefaultImage(path, false));
             }
+
+            editLogic.drawImage(imgViewer.CreateGraphics());
         }
 
         private void 같은폴더내의이미지탐색ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -94,6 +102,22 @@ namespace ImageViewer
             frmFileList.setTargetPath(this.targetFolderPath);
             frmFileList.setMainForm(this);
             frmFileList.Show();
+        }
+
+        private void imgViewer_MouseWheel(object sender, MouseEventArgs e)
+        {
+
+            if (e.Delta > 0)
+                editLogic.zoomImage(true, e.Location); // 확대
+            else
+                editLogic.zoomImage(false, e.Location); // 축소
+
+            imgViewer.Invalidate();
+        }
+
+        private void imgViewer_Paint(object sender, PaintEventArgs e)
+        {
+            editLogic.drawImage(e.Graphics);
         }
     }
 }
