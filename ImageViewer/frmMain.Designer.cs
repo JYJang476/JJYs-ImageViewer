@@ -43,7 +43,7 @@ namespace ImageViewer
             this.파일ToolStripMenuItem});
             this.menuImg.Location = new System.Drawing.Point(0, 0);
             this.menuImg.Name = "menuImg";
-            this.menuImg.Size = new System.Drawing.Size(798, 24);
+            this.menuImg.Size = new System.Drawing.Size(1413, 24);
             this.menuImg.TabIndex = 1;
             this.menuImg.Text = "menuStrip1";
             // 
@@ -78,7 +78,7 @@ namespace ImageViewer
             this.imgViewer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.imgViewer.Location = new System.Drawing.Point(0, 24);
             this.imgViewer.Name = "imgViewer";
-            this.imgViewer.Size = new System.Drawing.Size(798, 654);
+            this.imgViewer.Size = new System.Drawing.Size(1413, 838);
             this.imgViewer.TabIndex = 2;
             this.imgViewer.Paint += new System.Windows.Forms.PaintEventHandler(this.imgViewer_Paint);
             this.imgViewer.MouseDown += new System.Windows.Forms.MouseEventHandler(this.imgViewer_MouseDown);
@@ -90,7 +90,7 @@ namespace ImageViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(798, 678);
+            this.ClientSize = new System.Drawing.Size(1413, 862);
             this.Controls.Add(this.imgViewer);
             this.Controls.Add(this.menuImg);
             this.MainMenuStrip = this.menuImg;

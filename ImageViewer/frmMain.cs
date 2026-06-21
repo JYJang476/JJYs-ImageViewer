@@ -35,6 +35,7 @@ namespace ImageViewer
 
         private void frmMain_Load(object sender, EventArgs e)
         {
+            this.MinimumSize = new Size(600, 600);
             editLogic.setImagePanelSize(imgViewer.Size);
 
             // 더블버퍼링 추가
@@ -141,6 +142,7 @@ namespace ImageViewer
 
         private void imgViewer_MouseDown(object sender, MouseEventArgs e)
         {
+            Debug.WriteLine(editLogic.getViewerStatus());
             if (editLogic.getViewerStatus() != ViewerStatusEnum.MOVING)
             {
                 editLogic.initImageMove(e.Location);
@@ -151,6 +153,7 @@ namespace ImageViewer
         private void imgViewer_MouseUp(object sender, MouseEventArgs e)
         {
             if (editLogic.getViewerStatus() == ViewerStatusEnum.MOVING) editLogic.roolBackStatus();
+            Debug.WriteLine("test");
         }
 
         private void imgViewer_MouseMove(object sender, MouseEventArgs e)
