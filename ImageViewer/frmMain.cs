@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.IO;
 using ImageViewer.Logic;
 using System.Diagnostics;
+using ImageViewer.Enum;
 
 namespace ImageViewer
 {
@@ -35,6 +36,17 @@ namespace ImageViewer
         private void frmMain_Load(object sender, EventArgs e)
         {
             editLogic.setImagePanelSize(imgViewer.Size);
+
+            // 더블버퍼링 추가
+            typeof(Panel).InvokeMember(
+                "DoubleBuffered",
+                System.Reflection.BindingFlags.SetProperty |
+                System.Reflection.BindingFlags.Instance |
+                System.Reflection.BindingFlags.NonPublic,
+                null,
+                imgViewer,
+                new object[] { true });
+
             // 경로를 파라메터로 가져온 후 이미지 데이터로 이미지 표시            
             string[] args = Environment.GetCommandLineArgs();
 
@@ -106,11 +118,13 @@ namespace ImageViewer
 
         private void imgViewer_MouseWheel(object sender, MouseEventArgs e)
         {
-
-            if (e.Delta > 0)
-                editLogic.zoomImage(true, e.Location); // 확대
+            // 현재 상태가 줌상태라면
+            if (editLogic.getViewerStatus() == ViewerStatusEnum.ZOOM) this.Cursor = Cursors.Hand; // 커서를 손모양으로 변경
             else
-                editLogic.zoomImage(false, e.Location); // 축소
+                this.Cursor = Cursors.Default;
+
+            bool isZoom = e.Delta > 0;
+            editLogic.zoomImage(isZoom, e.Location); // 확대
 
             imgViewer.Invalidate();
         }
@@ -118,6 +132,34 @@ namespace ImageViewer
         private void imgViewer_Paint(object sender, PaintEventArgs e)
         {
             editLogic.drawImage(e.Graphics);
+        }
+
+        private void imgViewer_Resize(object sender, EventArgs e)
+        {
+            editLogic.setImagePanelSize(this.imgViewer.Size);
+        }
+
+        private void imgViewer_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (editLogic.getViewerStatus() != ViewerStatusEnum.MOVING)
+            {
+                editLogic.initImageMove(e.Location);
+                editLogic.setViewerStatus(ViewerStatusEnum.MOVING);
+            }
+        }
+
+        private void imgViewer_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (editLogic.getViewerStatus() == ViewerStatusEnum.MOVING) editLogic.roolBackStatus();
+        }
+
+        private void imgViewer_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left && editLogic.getViewerStatus() == ViewerStatusEnum.MOVING)
+            {
+                editLogic.moveImage(e.Location);
+                imgViewer.Invalidate();
+            }
         }
     }
 }

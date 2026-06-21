@@ -64,6 +64,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enum\ViewerStatusEnum.cs" />
     <Compile Include="Logic\FileLogic.cs" />
     <Compile Include="Dto\FilePathDto.cs" />
     <Compile Include="frmFileList.cs">

@@ -72,12 +72,19 @@ namespace ImageViewer
             // 
             // imgViewer
             // 
+            this.imgViewer.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.imgViewer.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.imgViewer.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.imgViewer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.imgViewer.Location = new System.Drawing.Point(0, 24);
             this.imgViewer.Name = "imgViewer";
             this.imgViewer.Size = new System.Drawing.Size(798, 654);
             this.imgViewer.TabIndex = 2;
             this.imgViewer.Paint += new System.Windows.Forms.PaintEventHandler(this.imgViewer_Paint);
+            this.imgViewer.MouseDown += new System.Windows.Forms.MouseEventHandler(this.imgViewer_MouseDown);
+            this.imgViewer.MouseMove += new System.Windows.Forms.MouseEventHandler(this.imgViewer_MouseMove);
+            this.imgViewer.MouseUp += new System.Windows.Forms.MouseEventHandler(this.imgViewer_MouseUp);
+            this.imgViewer.Resize += new System.EventHandler(this.imgViewer_Resize);
             // 
             // frmMain
             // 
